@@ -1,0 +1,6 @@
+framework module formDataPost {
+  umbrella header "formDataPost-umbrella.h"
+
+  export *
+  module * { export * }
+}

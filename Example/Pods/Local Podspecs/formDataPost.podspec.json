@@ -1,0 +1,22 @@
+{
+  "name": "formDataPost",
+  "version": "0.1.0",
+  "summary": "A short description of formDataPost.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/xushsh163/formDataPost",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "xushsh163": "xushsh163@163.com"
+  },
+  "source": {
+    "git": "https://github.com/xushsh163/formDataPost.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "formDataPost/Classes/**/*"
+}
