@@ -49,7 +49,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: Button Action
     func ratingButtonTapped(_ button: UIButton) {
         let url = textField.text
-        let ret = FormDataPost.getUploadToken(url: url!, finished: {(ret: String)-> Void in
+        let ret = FormDataPost.getUploadToken(url!, {(ret: String)-> Void in
             DispatchQueue.main.async() {
                 // Do stuff to UI
                 // self.showToast(message: "res: \(ret)")
@@ -114,14 +114,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
             let decoded = try JSONSerialization.jsonObject(with: jsonData, options: [])
             let dictFromJSON = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)! as String
-            let res = FormDataPost.upload(filePath: (localPath?.path)!, fileKey: "file", uploadUrl: jsonDict!["host"]!, paramJSON: dictFromJSON,
-                onProgress: { (ret) in
-                    DispatchQueue.main.async() {
-                        // Do stuff to UI
-                        self.label2.text = self.str2 + String(ret * 100)
-                    }
-                },
-                finished: { (ret) in
+            let res = FormDataPost.upload((localPath?.path)!, "file", jsonDict!["host"]!, dictFromJSON,
+                                          { (ret) in
+                                            DispatchQueue.main.async() {
+                                                // Do stuff to UI
+                                                self.label2.text = self.str2 + String(ret * 100)
+                                            }
+            },
+                                          { (ret) in
                 DispatchQueue.main.async() {
                     // Do stuff to UI
                     self.showToast(message: "res: \(ret)")

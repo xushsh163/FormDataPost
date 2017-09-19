@@ -7,7 +7,7 @@ import ImageIO
     static var expectedContentLength = 0
     static var savedLength = 0
     static var onProgress: ((Float) -> Void)?
-    public static func getUploadToken(url: String, finished: @escaping (_ cb: String)->Void) -> String {
+    public static func getUploadToken(_ url: String, _ finished: @escaping (_ cb: String)->Void) -> String {
         do {
             var request = URLRequest(url: URL(string: url)!)
             request.httpMethod = "POST"
@@ -37,7 +37,7 @@ import ImageIO
         }
     }
     
-    public static func upload(filePath: String, fileKey: String, uploadUrl: String, paramJSON: String, onProgress: @escaping (_ cb: Float)->Void, finished: @escaping (_ cb: String)->Void) -> String {
+    public static func upload(_ filePath: String, _ fileKey: String, _ uploadUrl: String, _ paramJSON: String, _ onProgress: @escaping (_ cb: Float)->Void, _ finished: @escaping (_ cb: String)->Void) -> String {
         do {
             var r  = URLRequest(url: URL(string: uploadUrl)!)
             r.httpMethod = "POST"
