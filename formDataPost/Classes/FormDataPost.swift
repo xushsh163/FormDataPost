@@ -77,18 +77,18 @@ import ImageIO
             FormDataPost.onProgress = onProgress
             FormDataPost.savedLength = 0
             let config = URLSessionConfiguration.default
-            let session = URLSession(configuration: config, delegate: UploadDelete(onProgress: onProgress), delegateQueue: nil)
+            let session = URLSession(configuration: config, delegate: UploadDelegate(onProgress: onProgress), delegateQueue: nil)
             //            let task = URLSession.shared.dataTask(with: r) { data, response, error in
             let task = session.dataTask(with: r) { data, response, error in
                 guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                    print("error=\(error)")
-                    finished("error: \(error)")
+                    print("error=\(String(describing: error))")
+                    finished("error: \(String(describing: error))")
                     return
                 }
                 
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode < 200 || httpStatus.statusCode > 300 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
+                    print("response = \(String(describing: response))")
                     finished("statusCode should be 200, but is \(httpStatus.statusCode)")
                     return
                 }
@@ -131,7 +131,7 @@ import ImageIO
     }
 }
 
-@objc class UploadDelete: NSObject, URLSessionTaskDelegate {
+@objc class UploadDelegate: NSObject, URLSessionTaskDelegate {
     var onProgress: ((Float)->Void)?
     
     public init(onProgress: @escaping (_ cb: Float)->Void) {
