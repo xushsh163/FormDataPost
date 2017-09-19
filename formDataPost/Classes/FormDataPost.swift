@@ -16,7 +16,7 @@ import ImageIO
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data, error == nil else {                                                 // check for fundamental networking error
                     print("error=\(String(describing: error))")
-                    finished("error=\(String(describing: error))")
+                    finished("error: \(String(describing: error))")
                     return
                 }
                 
@@ -89,7 +89,7 @@ import ImageIO
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode < 200 || httpStatus.statusCode > 300 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response))")
-                    finished("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    finished("error: statusCode should be 200, but is \(httpStatus.statusCode)")
                     return
                 }
                 
