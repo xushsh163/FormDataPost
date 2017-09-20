@@ -90,17 +90,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let photoURL          = NSURL(fileURLWithPath: documentDirectory)
         let localPath         = photoURL.appendingPathComponent(imageName!)
-        if !FileManager.default.fileExists(atPath: localPath!.path) {
-            do {
-                try UIImageJPEGRepresentation(chosenImage, 1.0)?.write(to: localPath!)
-                print("file saved")
-            }catch {
-                print("error saving file")
-            }
-        }
-        else {
-            print("file already exists")
-        }
+//        if !FileManager.default.fileExists(atPath: localPath!.path) {
+//            do {
+//                try UIImageJPEGRepresentation(chosenImage, 1.0)?.write(to: localPath!)
+//                print("file saved")
+//            }catch {
+//                print("error saving file")
+//            }
+//        }
+//        else {
+//            print("file already exists")
+//        }
         do {
             let jsonDict = try JSONSerialization.jsonObject(with: self.res.data(using: .utf8)!) as? [String: String]
             let jsonObject: [String: String] = [
@@ -114,7 +114,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
             let decoded = try JSONSerialization.jsonObject(with: jsonData, options: [])
             let dictFromJSON = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)! as String
-            let res = FormDataPost.upload((localPath?.path)!, "file", jsonDict!["host"]!, dictFromJSON,
+//            let res = FormDataPost.upload((localPath?.path)!, "file", jsonDict!["host"]!, dictFromJSON,
+//                                          { (ret) in
+//                                            DispatchQueue.main.async() {
+//                                                // Do stuff to UI
+//                                                self.label2.text = self.str2 + String(ret * 100)
+//                                            }
+//            },
+//                                          { (ret) in
+//                DispatchQueue.main.async() {
+//                    // Do stuff to UI
+//                    self.showToast(message: "res: \(ret)")
+//                }
+//            })
+            let res = FormDataPost.uploadImg(chosenImage, (localPath?.lastPathComponent)! , "file", jsonDict!["host"]!, dictFromJSON,
                                           { (ret) in
                                             DispatchQueue.main.async() {
                                                 // Do stuff to UI
@@ -122,10 +135,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                             }
             },
                                           { (ret) in
-                DispatchQueue.main.async() {
-                    // Do stuff to UI
-                    self.showToast(message: "res: \(ret)")
-                }
+                                            DispatchQueue.main.async() {
+                                                // Do stuff to UI
+                                                self.showToast(message: "res: \(ret)")
+                                            }
             })
         } catch {
             self.showToast(message: "error: \(error)")
