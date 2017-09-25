@@ -82,20 +82,26 @@ import ImageIO
             let task = session.dataTask(with: r) { data, response, error in
                 guard let data = data, error == nil else {                                                 // check for fundamental networking error
                     print("error=\(String(describing: error))")
-                    finished("error: \(String(describing: error))")
+                    DispatchQueue.main.async(){
+                        finished("error: \(String(describing: error))")
+                    }
                     return
                 }
                 
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode < 200 || httpStatus.statusCode > 300 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response))")
-                    finished("error: statusCode should be 200, but is \(httpStatus.statusCode)")
+                    DispatchQueue.main.async(){
+                        finished("error: statusCode should be 200, but is \(httpStatus.statusCode)")
+                    }
                     return
                 }
                 
                 let responseString = String(data: data, encoding: .utf8)
                 print("responseString = \(responseString!)")
-                finished(responseString!)
+                DispatchQueue.main.async(){
+                    finished(responseString!)
+                }
             }
             task.resume()
             return "OK"
@@ -137,20 +143,26 @@ import ImageIO
             let task = session.dataTask(with: r) { data, response, error in
                 guard let data = data, error == nil else {                                                 // check for fundamental networking error
                     print("error=\(String(describing: error))")
-                    finished("error: \(String(describing: error))")
+                    DispatchQueue.main.async(){
+                        finished("error: \(String(describing: error))")
+                    }
                     return
                 }
                 
                 if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode < 200 || httpStatus.statusCode > 300 {           // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response))")
-                    finished("error: statusCode should be 200, but is \(httpStatus.statusCode)")
+                    DispatchQueue.main.async(){
+                        finished("error: statusCode should be 200, but is \(httpStatus.statusCode)")
+                    }
                     return
                 }
                 
                 let responseString = String(data: data, encoding: .utf8)
                 print("responseString = \(responseString!)")
-                finished(responseString!)
+                DispatchQueue.main.async(){
+                    finished(responseString!)
+                }
             }
             task.resume()
             return "OK"
@@ -197,7 +209,9 @@ import ImageIO
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
         let percentage = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
         if self.onProgress != nil {
-            self.onProgress!(percentage)
+            DispatchQueue.main.async(){
+             self.onProgress!(percentage)
+            }
         }
     }
 }
